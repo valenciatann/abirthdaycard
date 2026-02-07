@@ -29,45 +29,38 @@
             width: 300px;
             height: 200px;
             cursor: pointer;
-            z-index: 10;
+            perspective: 1000px;
         }
 
         /* THE LETTER */
         .letter {
             position: absolute;
-            top: 5px;
+            bottom: 0;
             left: 10px;
             width: 280px;
-            height: 190px;
+            height: 180px;
             background-color: var(--letter-color);
             z-index: 2;
             transition: all 0.8s ease-in-out;
-            padding: 25px;
+            padding: 20px;
             box-sizing: border-box;
-            box-shadow: 0 0 10px rgba(0,0,0,0.05);
             font-family: "Times New Roman", Times, serif;
             font-size: 14px;
             color: #444;
             overflow-y: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        /* Centered Title */
         .letter h2 {
             font-family: 'Caveat', cursive;
-            font-size: 32px;
+            font-size: 30px;
             color: #d48192;
             margin: 0 0 10px 0;
             text-align: center;
         }
 
-        /* Left-aligned body text */
-        .letter p {
-            text-align: left;
-            margin: 10px 0;
-            line-height: 1.4;
-        }
-
-        /* Centered Footer Instruction */
+        .letter p { text-align: left; margin: 8px 0; line-height: 1.4; }
+        
         .letter .bottom-text {
             display: block;
             text-align: center;
@@ -75,6 +68,7 @@
             font-weight: bold;
         }
 
+        /* 3D ENVELOPE PIECES */
         .envelope-back {
             position: absolute;
             width: 100%;
@@ -84,126 +78,104 @@
             border-radius: 0 0 5px 5px;
         }
 
-        /* 3D MIRRORED FLAPS (Deepened Shadows) */
-        .front-flaps-left {
+        /* LEFT FLAP - Deep 3D Shadow */
+        .left-flap {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        /* Left Side with Deeper 3D shadow */
-        .front-flaps-left::before {
-            content: "";
-            position: absolute;
+            width: 0;
+            height: 0;
             border-left: 150px solid var(--env-color);
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
-            left: 0;
-            filter: drop-shadow(6px 0 4px rgba(0,0,0,0.2)); /* Deeper 3D Mirror Shadow */
+            z-index: 4;
+            filter: drop-shadow(4px 0 4px rgba(0,0,0,0.15));
         }
 
-        .front-flaps-right {
+        /* RIGHT FLAP - Deep 3D Shadow */
+        .right-flap {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 3;
-            pointer-events: none;
-        }
-        
-        /* Right Side with Deeper 3D shadow */
-        .front-flaps-right::after {
-            content: "";
-            position: absolute;
+            right: 0;
+            width: 0;
+            height: 0;
             border-right: 150px solid var(--env-color);
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
-            right: 0;
-            filter: drop-shadow(-6px 0 4px rgba(0,0,0,0.2)); /* Deeper 3D Mirror Shadow */
+            z-index: 4;
+            filter: drop-shadow(-4px 0 4px rgba(0,0,0,0.15));
         }
 
-        .front-flaps-bottom {
+        /* BOTTOM FLAP - Sits on Top */
+        .bottom-flap {
             position: absolute;
             bottom: 0;
             width: 0;
             height: 0;
             border-left: 150px solid transparent;
             border-right: 150px solid transparent;
-            border-bottom: 100px solid var(--env-color);
-            z-index: 4;
-        }
-
-        /* To/From Labels */
-        .labels {
-            position: absolute;
-            bottom: 12px;
-            left: 12px;
-            z-index: 6;
-            font-family: "Times New Roman", Times, serif;
-            font-size: 10px;
-            color: black;
-            text-align: left;
-            line-height: 1.2;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+            border-bottom: 110px solid var(--env-color);
+            z-index: 5;
         }
 
         .top-flap {
             position: absolute;
             top: 0;
+            width: 0;
+            height: 0;
             border-left: 150px solid transparent;
             border-right: 150px solid transparent;
-            border-top: 100px solid var(--env-color);
+            border-top: 110px solid var(--env-color);
             transform-origin: top;
             transition: 0.5s ease;
-            z-index: 5;
+            z-index: 6;
         }
 
-        /* DIE-CUT SNOOPY (The Real Fix) */
+        /* TO/FROM LABELS */
+        .labels {
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            z-index: 10;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 10px;
+            color: black;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        /* SNOOPY STICKER - Physical Circle approach */
         .sticker {
             position: absolute;
-            width: 100px;
-            height: auto; /* Maintain aspect ratio */
-            top: 90px; 
+            width: 85px;
+            height: 85px;
+            top: 100px;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 7;
-            /* This is the key: it acts like a clipping mask */
-            background-color: white; /* The "paper" color for the sticker */
-            border-radius: 10%; /* Slightly rounded corners for "sticker" effect */
-            padding: 5px; /* Creates the white border */
-            box-shadow: 0px 3px 5px rgba(0,0,0,0.2); /* Soft shadow */
-            overflow: hidden; /* Crucial to clip internal content */
-            display: flex; /* Helps center image inside */
-            justify-content: center;
+            z-index: 11;
+            background-color: white; /* Forces the background to be white */
+            border-radius: 50%; /* Makes it a round "seal" sticker */
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: flex;
             align-items: center;
-            transition: opacity 0.3s ease;
+            justify-content: center;
+            transition: 0.3s;
         }
 
         .sticker img {
             width: 100%;
-            height: 100%;
-            object-fit: contain; /* Ensures Snoopy fits within the white background */
-            mix-blend-mode: multiply; /* Removes the white background within the image itself */
+            height: auto;
+            mix-blend-mode: multiply; /* Blends Snoopy's off-white with the pure white circle */
         }
 
-        /* ANIMATION */
+        /* OPEN STATES */
         .open .top-flap { transform: rotateX(180deg); z-index: 1; }
+        .open .letter { transform: translateY(-160px); height: 350px; z-index: 8; }
         .open .sticker, .open .labels { opacity: 0; }
-        .open .letter {
-            transform: translateY(-160px);
-            height: 360px;
-            z-index: 10;
-        }
 
         .footer-msg {
-            position: fixed;
-            bottom: 30px;
+            margin-top: 40px;
             font-family: "Times New Roman", Times, serif;
             font-size: 14px;
             color: #d48192;
-            text-align: center;
         }
     </style>
 </head>
@@ -221,9 +193,9 @@
             <span class="bottom-text">check your letter box when home!</span>
         </div>
 
-        <div class="front-flaps-left"></div>
-        <div class="front-flaps-right"></div>
-        <div class="front-flaps-bottom"></div>
+        <div class="left-flap"></div>
+        <div class="right-flap"></div>
+        <div class="bottom-flap"></div>
 
         <div class="labels">
             To: Amos<br>
@@ -231,13 +203,11 @@
         </div>
         
         <div class="sticker">
-            <img src="https://ih1.redbubble.net/image.5936225204.6632/st,small,507x507-pad,600x600,f8f8f8.jpg" alt="Snoopy with Birthday Cake">
+            <img src="https://ih1.redbubble.net/image.5936225204.6632/st,small,507x507-pad,600x600,f8f8f8.jpg">
         </div>
     </div>
 
-    <div class="footer-msg">
-        vibe coded xoxo with luv~
-    </div>
+    <div class="footer-msg">vibe coded xoxo with luv~</div>
 
 </body>
 </html>
