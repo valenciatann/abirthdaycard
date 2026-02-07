@@ -84,8 +84,8 @@
             border-radius: 0 0 5px 5px;
         }
 
-        /* 3D MIRRORED FLAPS */
-        .front-flaps {
+        /* 3D MIRRORED FLAPS (Deepened Shadows) */
+        .front-flaps-left {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -93,15 +93,15 @@
             pointer-events: none;
         }
 
-        /* Left Side Shadow Fix */
-        .front-flaps::before {
+        /* Left Side with Deeper 3D shadow */
+        .front-flaps-left::before {
             content: "";
             position: absolute;
             border-left: 150px solid var(--env-color);
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
             left: 0;
-            filter: drop-shadow(4px 0 3px rgba(0,0,0,0.1)); 
+            filter: drop-shadow(6px 0 4px rgba(0,0,0,0.2)); /* Deeper 3D Mirror Shadow */
         }
 
         .front-flaps-right {
@@ -112,7 +112,7 @@
             pointer-events: none;
         }
         
-        /* Right Side Shadow */
+        /* Right Side with Deeper 3D shadow */
         .front-flaps-right::after {
             content: "";
             position: absolute;
@@ -120,7 +120,7 @@
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
             right: 0;
-            filter: drop-shadow(-4px 0 3px rgba(0,0,0,0.1));
+            filter: drop-shadow(-6px 0 4px rgba(0,0,0,0.2)); /* Deeper 3D Mirror Shadow */
         }
 
         .front-flaps-bottom {
@@ -160,23 +160,32 @@
             z-index: 5;
         }
 
-        /* DIE-CUT SNOOPY (No Box) */
+        /* DIE-CUT SNOOPY (The Real Fix) */
         .sticker {
             position: absolute;
             width: 100px;
+            height: auto; /* Maintain aspect ratio */
             top: 90px; 
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 7;
-            /* multiply removes white background from the JPG/PNG */
-            mix-blend-mode: multiply; 
+            /* This is the key: it acts like a clipping mask */
+            background-color: white; /* The "paper" color for the sticker */
+            border-radius: 10%; /* Slightly rounded corners for "sticker" effect */
+            padding: 5px; /* Creates the white border */
+            box-shadow: 0px 3px 5px rgba(0,0,0,0.2); /* Soft shadow */
+            overflow: hidden; /* Crucial to clip internal content */
+            display: flex; /* Helps center image inside */
+            justify-content: center;
+            align-items: center;
             transition: opacity 0.3s ease;
-            /* White outline "sticker" effect */
-            filter: drop-shadow(1px 1px 0 white) 
-                    drop-shadow(-1px -1px 0 white) 
-                    drop-shadow(1px -1px 0 white) 
-                    drop-shadow(-1px 1px 0 white)
-                    drop-shadow(0px 3px 5px rgba(0,0,0,0.2));
+        }
+
+        .sticker img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures Snoopy fits within the white background */
+            mix-blend-mode: multiply; /* Removes the white background within the image itself */
         }
 
         /* ANIMATION */
@@ -212,7 +221,7 @@
             <span class="bottom-text">check your letter box when home!</span>
         </div>
 
-        <div class="front-flaps"></div>
+        <div class="front-flaps-left"></div>
         <div class="front-flaps-right"></div>
         <div class="front-flaps-bottom"></div>
 
@@ -221,7 +230,9 @@
             From: Val
         </div>
         
-        <img src="https://ih1.redbubble.net/image.5936225204.6632/st,small,507x507-pad,600x600,f8f8f8.jpg" class="sticker">
+        <div class="sticker">
+            <img src="https://ih1.redbubble.net/image.5936225204.6632/st,small,507x507-pad,600x600,f8f8f8.jpg" alt="Snoopy with Birthday Cake">
+        </div>
     </div>
 
     <div class="footer-msg">
