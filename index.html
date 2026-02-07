@@ -42,7 +42,7 @@
             border-radius: 0 0 5px 5px;
         }
 
-        /* 2. THE LETTER - Set to jump in front when open */
+        /* 2. THE LETTER */
         .letter {
             position: absolute;
             bottom: 5px;
@@ -50,7 +50,7 @@
             width: 280px;
             height: 180px;
             background-color: var(--letter-color);
-            z-index: 2; /* Behind flaps when closed */
+            z-index: 2; /* Starts behind flaps */
             transition: all 0.8s ease-in-out;
             padding: 20px;
             box-sizing: border-box;
@@ -79,7 +79,7 @@
             font-weight: bold;
         }
 
-        /* 3. THE 3D FLAPS (Restored shadows) */
+        /* 3. THE 3D FLAPS - Visible when closed */
         .left-flap {
             position: absolute;
             width: 0;
@@ -88,7 +88,7 @@
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
             z-index: 3;
-            filter: drop-shadow(5px 0 5px rgba(0,0,0,0.15));
+            filter: drop-shadow(2px 0 3px rgba(0,0,0,0.1));
         }
 
         .right-flap {
@@ -100,7 +100,7 @@
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
             z-index: 3;
-            filter: drop-shadow(-5px 0 5px rgba(0,0,0,0.15));
+            filter: drop-shadow(-2px 0 3px rgba(0,0,0,0.1));
         }
 
         .bottom-flap {
@@ -112,7 +112,7 @@
             border-right: 150px solid transparent;
             border-bottom: 105px solid var(--env-color);
             z-index: 4;
-            filter: drop-shadow(0 -3px 5px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 -2px 3px rgba(0,0,0,0.1));
         }
 
         .top-flap {
@@ -126,7 +126,7 @@
             transform-origin: top;
             transition: 0.5s ease;
             z-index: 5;
-            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
         }
 
         /* 4. LABELS */
@@ -167,13 +167,14 @@
             height: auto;
         }
 
-        /* OPEN STATES - Restored Overlap Fix */
+        /* OPEN STATES - MAGIC HAPPENS HERE */
         .open .top-flap { transform: rotateX(180deg); z-index: 1; }
         
+        /* The letter moves up and JUMPS to the front z-index */
         .open .letter { 
-            transform: translateY(-60px) scale(1.1); /* Slight move up but keeps it on screen */
+            transform: translateY(-80px) scale(1.1); 
             height: 340px; 
-            z-index: 20; /* Jumps in front of the flaps */
+            z-index: 20; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
