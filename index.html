@@ -51,10 +51,9 @@
             overflow-y: auto;
         }
 
-        /* Header stays centered */
         .letter h2 {
             font-family: 'Caveat', cursive;
-            font-size: 32px;
+            font-size: 32px; /* Matching your preferred code size */
             color: #d48192;
             margin: 0 0 10px 0;
             text-align: center;
@@ -67,11 +66,12 @@
             line-height: 1.4;
         }
 
-        /* Bold instruction stays centered */
-        .letter p b {
+        /* Centered bold instruction */
+        .letter .bottom-note {
             display: block;
             text-align: center;
             margin-top: 15px;
+            font-weight: bold;
         }
 
         .envelope-back {
@@ -83,21 +83,8 @@
             border-radius: 0 0 5px 5px;
         }
 
-        /* TO/FROM Labels on the envelope */
-        .envelope-labels {
-            position: absolute;
-            bottom: 15px;
-            left: 15px;
-            z-index: 6; /* On top of flaps */
-            font-family: "Times New Roman", Times, serif;
-            font-size: 12px;
-            color: black;
-            line-height: 1.2;
-            pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        .front-flaps {
+        /* 3D MIRRORED FLAPS */
+        .front-flaps-left {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -105,15 +92,15 @@
             pointer-events: none;
         }
 
-        /* Left Side Shading */
-        .front-flaps::before {
+        /* Left Side with 3D shadow */
+        .front-flaps-left::before {
             content: "";
             position: absolute;
             border-left: 150px solid var(--env-color);
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
             left: 0;
-            filter: drop-shadow(-2px 0 2px rgba(0,0,0,0.05));
+            filter: drop-shadow(2px 0 2px rgba(0,0,0,0.08)); /* 3D Mirror Shadow */
         }
 
         .front-flaps-right {
@@ -124,7 +111,7 @@
             pointer-events: none;
         }
         
-        /* Right Side Shading */
+        /* Right Side with 3D shadow */
         .front-flaps-right::after {
             content: "";
             position: absolute;
@@ -132,7 +119,7 @@
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
             right: 0;
-            filter: drop-shadow(2px 0 2px rgba(0,0,0,0.05));
+            filter: drop-shadow(-2px 0 2px rgba(0,0,0,0.08)); /* 3D Mirror Shadow */
         }
 
         .front-flaps-bottom {
@@ -144,6 +131,20 @@
             border-right: 150px solid transparent;
             border-bottom: 100px solid var(--env-color);
             z-index: 4;
+        }
+
+        /* TO/FROM Labels */
+        .envelope-labels {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            z-index: 6; 
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12px;
+            color: black;
+            line-height: 1.2;
+            pointer-events: none;
+            transition: opacity 0.3s;
         }
 
         .top-flap {
@@ -166,6 +167,7 @@
             z-index: 7;
             mix-blend-mode: multiply;
             transition: opacity 0.3s ease;
+            /* The specific white die-cut shadow from your preferred code */
             filter: drop-shadow(1px 1px 0 white) 
                     drop-shadow(-1px -1px 0 white) 
                     drop-shadow(1px -1px 0 white) 
@@ -203,10 +205,10 @@
             <p>Dearest amos goh,</p>
             <p>I hope your day is as wonderful and bright as you are. May your year be filled with laughter, treats, and all the Snoopy dances!</p>
             <p>Thank you for being such an amazing person in my life. You make everything a little bit better just by being you.</p>
-            <p><b>check your letter box when home!</b></p>
+            <span class="bottom-note">check your letter box when home!</span>
         </div>
 
-        <div class="front-flaps"></div>
+        <div class="front-flaps-left"></div>
         <div class="front-flaps-right"></div>
         <div class="front-flaps-bottom"></div>
 
