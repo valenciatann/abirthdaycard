@@ -141,14 +141,14 @@
             transition: 0.3s;
         }
 
-        /* 5. SNOOPY STICKER - The "Cookie Cutter" Fix */
+        /* 5. STICKER - New image & adjusted position */
         .sticker-container {
             position: absolute;
             width: 85px;
             height: 85px;
-            top: 50%;
+            top: 45%; /* Moved up from 50% */
             left: 50%;
-            transform: translate(-50%, -5px); /* Adjusted to sit on flap edge */
+            transform: translate(-50%, -5px); 
             z-index: 11;
             background-color: white; 
             border-radius: 50%;
@@ -157,14 +157,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden; /* THIS CUTS THE SQUARE CORNERS OFF */
+            overflow: hidden; 
             transition: 0.3s;
         }
 
         .sticker-container img {
-            width: 110%; /* Slightly zoomed to fill the circle */
+            width: 110%; 
             height: auto;
-            mix-blend-mode: multiply;
+            /* The new image seems to have a clean background, so no mix-blend-mode needed. */
+            /* mix-blend-mode: multiply; */ 
         }
 
         /* OPEN STATES */
@@ -204,7 +205,7 @@
         </div>
         
         <div class="sticker-container">
-            <img src="https://ih1.redbubble.net/image.5936225204.6632/st,small,507x507-pad,600x600,f8f8f8.jpg">
+            <img src="https://i5.walmartimages.com/asr/dbe9d1f3-53a1-4221-8a8e-e1d43ca32b80.854a7f0e728130fcf1fba8ff91114d7b.jpeg">
         </div>
     </div>
 
