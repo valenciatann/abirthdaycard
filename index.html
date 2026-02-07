@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birthday Surprise</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Times+New+Roman&display=swap" rel="stylesheet">
     <style>
         :root {
             --env-color: #fdb8c7;
@@ -14,13 +14,14 @@
 
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #ffe4e9;
             margin: 0;
             overflow: hidden;
-            flex-direction: column;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .envelope-wrapper {
@@ -28,33 +29,49 @@
             width: 300px;
             height: 200px;
             cursor: pointer;
+            z-index: 10;
         }
 
-        /* THE LETTER - Using Clip-Path to prevent any peeking */
+        /* THE LETTER */
         .letter {
             position: absolute;
-            top: 0;
+            top: 5px;
             left: 10px;
             width: 280px;
             height: 190px;
             background-color: var(--letter-color);
             z-index: 2;
-            transition: 0.8s ease-in-out;
-            padding: 20px;
+            transition: all 0.8s ease-in-out;
+            padding: 25px;
             box-sizing: border-box;
-            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
             font-family: "Times New Roman", Times, serif;
             font-size: 14px;
-            /* This cuts the letter off so it stays inside the envelope box */
-            clip-path: inset(0 0 0 0); 
-            opacity: 0;
+            color: #444;
+            overflow-y: auto;
         }
 
+        /* Header stays centered */
         .letter h2 {
             font-family: 'Caveat', cursive;
-            font-size: 30px;
+            font-size: 32px;
             color: #d48192;
-            margin-bottom: 10px;
+            margin: 0 0 10px 0;
+            text-align: center;
+        }
+
+        /* Body paragraphs align to the left */
+        .letter p {
+            text-align: left;
+            margin: 8px 0;
+            line-height: 1.4;
+        }
+
+        /* Bold instruction stays centered */
+        .letter p b {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
         }
 
         .envelope-back {
@@ -63,6 +80,21 @@
             height: 100%;
             background-color: var(--env-dark);
             z-index: 1;
+            border-radius: 0 0 5px 5px;
+        }
+
+        /* TO/FROM Labels on the envelope */
+        .envelope-labels {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            z-index: 6; /* On top of flaps */
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12px;
+            color: black;
+            line-height: 1.2;
+            pointer-events: none;
+            transition: opacity 0.3s;
         }
 
         .front-flaps {
@@ -73,21 +105,45 @@
             pointer-events: none;
         }
 
+        /* Left Side Shading */
         .front-flaps::before {
             content: "";
             position: absolute;
             border-left: 150px solid var(--env-color);
             border-top: 100px solid transparent;
             border-bottom: 100px solid transparent;
+            left: 0;
+            filter: drop-shadow(-2px 0 2px rgba(0,0,0,0.05));
         }
 
-        .front-flaps::after {
+        .front-flaps-right {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+        
+        /* Right Side Shading */
+        .front-flaps-right::after {
             content: "";
             position: absolute;
+            border-right: 150px solid var(--env-color);
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            right: 0;
+            filter: drop-shadow(2px 0 2px rgba(0,0,0,0.05));
+        }
+
+        .front-flaps-bottom {
+            position: absolute;
             bottom: 0;
+            width: 0;
+            height: 0;
             border-left: 150px solid transparent;
             border-right: 150px solid transparent;
             border-bottom: 100px solid var(--env-color);
+            z-index: 4;
         }
 
         .top-flap {
@@ -97,37 +153,42 @@
             border-right: 150px solid transparent;
             border-top: 100px solid var(--env-color);
             transform-origin: top;
-            transition: 0.4s ease;
-            z-index: 4;
+            transition: 0.5s ease;
+            z-index: 5;
         }
 
         .sticker {
             position: absolute;
-            width: 90px;
-            top: 75px; 
+            width: 100px;
+            top: 90px; 
             left: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-            transition: 0.3s;
-            filter: drop-shadow(0 0 2px white) drop-shadow(0 0 2px white) drop-shadow(0 0 2px white);
+            transform: translate(-50%, -50%);
+            z-index: 7;
+            mix-blend-mode: multiply;
+            transition: opacity 0.3s ease;
+            filter: drop-shadow(1px 1px 0 white) 
+                    drop-shadow(-1px -1px 0 white) 
+                    drop-shadow(1px -1px 0 white) 
+                    drop-shadow(-1px 1px 0 white)
+                    drop-shadow(0px 2px 4px rgba(0,0,0,0.1));
         }
 
         /* OPEN STATE */
-        .open .top-flap { transform: rotateX(180deg); z-index: 0; }
+        .open .top-flap { transform: rotateX(180deg); z-index: 1; }
+        .open .sticker, .open .envelope-labels { opacity: 0; }
         .open .letter {
-            opacity: 1;
-            transform: translateY(-155px);
+            transform: translateY(-160px);
             height: 360px;
             z-index: 10;
-            clip-path: inset(-100% -100% -100% -100%); /* Removes the crop when opening */
         }
-        .open .sticker { opacity: 0; }
 
         .footer-msg {
-            margin-top: 50px;
+            position: fixed;
+            bottom: 30px;
             font-family: "Times New Roman", Times, serif;
             font-size: 14px;
             color: #d48192;
+            text-align: center;
         }
     </style>
 </head>
@@ -136,6 +197,7 @@
     <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
         <div class="top-flap"></div>
         <div class="envelope-back"></div>
+        
         <div class="letter">
             <h2>Happy 20th Birthday!</h2>
             <p>Dearest amos goh,</p>
@@ -143,13 +205,22 @@
             <p>Thank you for being such an amazing person in my life. You make everything a little bit better just by being you.</p>
             <p><b>check your letter box when home!</b></p>
         </div>
-        
+
         <div class="front-flaps"></div>
+        <div class="front-flaps-right"></div>
+        <div class="front-flaps-bottom"></div>
+
+        <div class="envelope-labels">
+            To: Amos<br>
+            From: Val
+        </div>
         
         <img src="https://ih1.redbubble.net/image.5936225204.6632/st,small,507x507-pad,600x600,f8f8f8.jpg" class="sticker">
     </div>
 
-    <div class="footer-msg">vibe coded xoxo with luv~</div>
+    <div class="footer-msg">
+        vibe coded xoxo with luv~
+    </div>
 
 </body>
 </html>
