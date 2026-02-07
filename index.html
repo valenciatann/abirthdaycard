@@ -15,11 +15,13 @@
         body {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            /* Shifting everything towards the bottom */
+            justify-content: flex-end; 
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             background-color: #ffe4e9;
             margin: 0;
+            padding-bottom: 50px; /* Space from the bottom edge */
             overflow: hidden;
             -webkit-tap-highlight-color: transparent;
         }
@@ -32,7 +34,6 @@
             z-index: 10;
         }
 
-        /* 1. THE BACK */
         .envelope-back {
             position: absolute;
             width: 100%;
@@ -42,7 +43,7 @@
             border-radius: 0 0 5px 5px;
         }
 
-        /* 2. THE LETTER */
+        /* THE LETTER - Overlaps when open */
         .letter {
             position: absolute;
             bottom: 5px;
@@ -50,7 +51,7 @@
             width: 280px;
             height: 180px;
             background-color: var(--letter-color);
-            z-index: 2; /* Starts behind flaps */
+            z-index: 2;
             transition: all 0.8s ease-in-out;
             padding: 20px;
             box-sizing: border-box;
@@ -79,7 +80,7 @@
             font-weight: bold;
         }
 
-        /* 3. THE 3D FLAPS - Visible when closed */
+        /* 3D FLAPS */
         .left-flap {
             position: absolute;
             width: 0;
@@ -129,7 +130,6 @@
             filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
         }
 
-        /* 4. LABELS */
         .labels {
             position: absolute;
             bottom: 12px;
@@ -142,7 +142,6 @@
             transition: 0.3s;
         }
 
-        /* 5. STICKER */
         .sticker-container {
             position: absolute;
             width: 85px;
@@ -167,13 +166,12 @@
             height: auto;
         }
 
-        /* OPEN STATES - MAGIC HAPPENS HERE */
+        /* OPEN STATES - Moves letter UP out of the bottom-weighted envelope */
         .open .top-flap { transform: rotateX(180deg); z-index: 1; }
         
-        /* The letter moves up and JUMPS to the front z-index */
         .open .letter { 
-            transform: translateY(-80px) scale(1.1); 
-            height: 340px; 
+            transform: translateY(-280px); /* Moves up to be seen on screen */
+            height: 380px; 
             z-index: 20; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
@@ -181,7 +179,7 @@
         .open .sticker-container, .open .labels { opacity: 0; pointer-events: none; }
 
         .footer-msg {
-            margin-top: 50px;
+            margin-top: 40px;
             font-family: "Times New Roman", Times, serif;
             font-size: 14px;
             color: #d48192;
